@@ -17,10 +17,10 @@ for iteration in 1:10
     @variable(model, x[i=1:4], lower_bound = 0, Int) # Defining variable as the number of order of rolls of each type
 
     # Defining constraints
-    @constraint(model, x <= order_details[:, 2]) # variable do not exceed the oredr quantity
+    @constraint(model, x <= order_details[:, 2]) # variable value do not exceed the order quantity
     @constraint(model, sum(x .* order_details[:, 1]) <= 100) # sum of length of rolls cut do not exceed 100
 
-    scrap = 100 - sum(x .* order_details[:, 1]) # calculating scrap
+    scrap = 100 - sum(x .* order_details[:, 1]) # calculating scrap length
     profit = sum(x .* order_details[:, 3]) + scrap * scrap_price
 
     @objective(model, Max, profit)
@@ -32,6 +32,7 @@ end
 optimal_order = original_order .- order_details[:, 2]
 total_scrap = 10 * 100 - sum(optimal_order .* order_details[:, 1])
 revenue = sum(optimal_order .* order_details[:, 3]) + total_scrap * scrap_price
+
 # printing results
 println("Optimal Order Quantity = ", optimal_order)
 println("Total Scrap = ", total_scrap)
