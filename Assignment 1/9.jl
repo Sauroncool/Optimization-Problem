@@ -13,6 +13,7 @@ original_order = order_details[:, 2] # copying orginal order quantities for comp
 # As there are 10 rolls thus iterating it 10 times
 for iteration in 1:10
     model = Model(CPLEX.Optimizer)
+    # model = Model(optimizer_with_attributes(CPLEX.Optimizer, "CPX_PARAM_SCRIND" => 0)) # Use this to print results without solve clutter
 
     @variable(model, x[i=1:4], lower_bound = 0, Int) # Defining variable as the number of order of rolls of each type
 
@@ -27,7 +28,8 @@ for iteration in 1:10
     optimize!(model)
 
     order_details[:, 2] = order_details[:, 2] .- value.(x) # Updating new order details after each 100 m roll is used
-    # println(x)
+    
+    #println(value.(x))
 end
 
 optimal_order = original_order .- order_details[:, 2]
@@ -35,6 +37,6 @@ total_scrap = 10 * 100 - sum(optimal_order .* order_details[:, 1])
 revenue = sum(optimal_order .* order_details[:, 3]) + total_scrap * scrap_price
 
 # printing results
-# println("Optimal Order Quantity = ", optimal_order)
-# println("Total Scrap = ", total_scrap)
-# println("Revenue = ", revenue-700*10)
+println("Optimal Order Quantity = ", optimal_order)
+println("Total Scrap = ", total_scrap)
+println("Revenue = ", revenue-700*10)
