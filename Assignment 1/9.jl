@@ -27,6 +27,7 @@ for iteration in 1:10
     optimize!(model)
 
     order_details[:, 2] = order_details[:, 2] .- value.(x) # Updating new order details after each 100 m roll is used
+    # println(x)
 end
 
 optimal_order = original_order .- order_details[:, 2]
@@ -34,6 +35,6 @@ total_scrap = 10 * 100 - sum(optimal_order .* order_details[:, 1])
 revenue = sum(optimal_order .* order_details[:, 3]) + total_scrap * scrap_price
 
 # printing results
-println("Optimal Order Quantity = ", optimal_order)
-println("Total Scrap = ", total_scrap)
-println("Revenue = ", revenue)
+# println("Optimal Order Quantity = ", optimal_order)
+# println("Total Scrap = ", total_scrap)
+# println("Revenue = ", revenue-700*10)
