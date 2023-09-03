@@ -1,6 +1,7 @@
 # Question 9
 # code by Ambuj
-
+using JuMP
+using CPLEX
 
 
 # Defining values given to us
