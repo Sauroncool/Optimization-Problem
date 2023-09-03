@@ -1,8 +1,7 @@
 # Question 9
 # code by Ambuj
 
-using JuMP
-using CPLEX
+
 
 # Defining values given to us
 order_details = [14 5 200; 31 10 350; 36 15 400; 45 5 500]
@@ -35,8 +34,11 @@ end
 optimal_order = original_order .- order_details[:, 2]
 total_scrap = 10 * 100 - sum(optimal_order .* order_details[:, 1])
 revenue = sum(optimal_order .* order_details[:, 3]) + total_scrap * scrap_price
+manufacturing_cost=700
+profit = revenue - manufacturing_cost*10
 
 # printing results
 println("Optimal Order Quantity = ", optimal_order)
 println("Total Scrap = ", total_scrap)
-println("Revenue = ", revenue-700*10)
+println("Revenue = ", revenue)
+println("Profit = ", profit)
