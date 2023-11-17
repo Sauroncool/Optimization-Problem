@@ -1,9 +1,9 @@
 using ForwardDiff, LinearAlgebra
 
 #boha(x) = (x[1]^2 + 2 * x[2]^2 - 0.3 * cos(3 * pi * x[1]) - 0.4 * cos(4 * pi * x[2]) + 0.7) #Real Function
-#boha(x) = x[1] - x[2] + 2*x[1]^2 + 2*x[1]*x[2] + x[2]^2
-boha(x) = (x[1] + 2 * x[2] - 7)^2 + (2 * x[1] + x[2] - 5)^2
-grad_f(x) = ForwardDiff.gradient(boha, x)
+#func(x) = x[1] - x[2] + 2*x[1]^2 + 2*x[1]*x[2] + x[2]^2
+func(x) = (x[1] + 2 * x[2] - 7)^2 + (2 * x[1] + x[2] - 5)^2
+grad_f(x) = ForwardDiff.gradient(func, x)
 
 X1 = [1, 2]
 #X1 = [0, 0]
@@ -24,7 +24,7 @@ while norm(del_f1) > 10e-6
     global X1, B1, del_f1
 
     S1 = -B1 * del_f1
-    step_size = backtracking_line_search(boha, grad_f, X1, S1)
+    step_size = backtracking_line_search(func, grad_f, X1, S1)
 
     X2 = X1 + step_size .* S1
     #println("New Point:",X2)
@@ -40,6 +40,6 @@ while norm(del_f1) > 10e-6
     del_f1 = del_f2
 end
 println("Solution:",X1)
-println("Function Value",boha(X1))
+println("Function Value",func(X1))
 
 println("Solution rouded off:", round.(X1; digits=3))
