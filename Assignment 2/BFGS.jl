@@ -1,6 +1,6 @@
-func(x) = (x[1]^2 + 2 * x[2]^2 - 0.3 * cos(3 * pi * x[1]) - 0.4 * cos(4 * pi * x[2]) + 0.7) #Bohachevsky Function
+#func(x) = (x[1]^2 + 2 * x[2]^2 - 0.3 * cos(3 * pi * x[1]) - 0.4 * cos(4 * pi * x[2]) + 0.7) #Bohachevsky Function
 #func(x) = x[1] - x[2] + 2*x[1]^2 + 2*x[1]*x[2] + x[2]^2
-#func(x) = (x[1] + 2 * x[2] - 7)^2 + (2 * x[1] + x[2] - 5)^2
+func(x) = (x[1] + 2 * x[2] - 7)^2 + (2 * x[1] + x[2] - 5)^2
 
 function grad(f, x)
     x = Float64.(x)
@@ -27,12 +27,11 @@ B1 = [1 0
     0 1]
 
 
-function backtracking_line_search(f, grad_f, x, d, alpha=1.0, beta=0.5, c1=1e-4, c2=0.9)
-    t = alpha
-    while f(x + t .* d) > f(x) + c1 * t * sum(grad_f(x) .* d) || sum(grad_f(x + t * d) .* d) < c2 * sum(grad_f(x) .* d) # sum(a.*b) menas a dot b
-        t *= beta
+function backtracking_line_search(f, grad_f, x, p, α=1.0, beta=0.5, c1=1e-4, c2=0.9)
+    while f(x + α .* p) > f(x) + c1 * α * p' * grad_f(x) || p' * grad_f(x + α * p) < c2 * p' * grad_f(x) # https://en.wikipedia.org/wiki/Wolfe_conditions
+        α *= beta
     end
-    return t
+    return α
 end
 
 
