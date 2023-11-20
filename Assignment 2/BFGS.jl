@@ -27,7 +27,7 @@ B1 = [1 0
     0 1]
 
 
-function backtracking_line_search(f, grad_f, x, p, α=1.0, beta=0.5, c1=1e-4, c2=0.9)
+function backtracking_line_search(f, grad_f, x, p, α=1.0, beta=0.5, c1=1e-4, c2=0.9) # Backtracking Line Search with Wolfe Condition
     while f(x + α .* p) > f(x) + c1 * α * p' * grad_f(x) || p' * grad_f(x + α * p) < c2 * p' * grad_f(x) # https://en.wikipedia.org/wiki/Wolfe_conditions
         α *= beta
     end
