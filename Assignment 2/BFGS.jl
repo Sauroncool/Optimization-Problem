@@ -37,16 +37,22 @@ function backtracking_line_search(f, grad_f, x, d, alpha=1.0, beta=0.5, c1=1e-4,
     return t
 end
 
-while norm(del_f1) > 10e-6
+
+max_iter = 100
+
+for iter in 1:max_iter
     global X1, B1, del_f1
+
+    if norm(del_f1) <= 10e-6
+        break
+    end
 
     S1 = -B1 * del_f1
     step_size = backtracking_line_search(func, grad_f, X1, S1)
 
     X2 = X1 + step_size .* S1
-    #println("New Point:",X2)
     del_f2 = grad_f(X2)
-    #println("Norm:",norm(del_f2))
+
     g1 = del_f2 - del_f1
     d1 = step_size .* S1
 
