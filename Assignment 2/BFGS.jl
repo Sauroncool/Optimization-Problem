@@ -1,10 +1,8 @@
-using LinearAlgebra
-
 #boha(x) = (x[1]^2 + 2 * x[2]^2 - 0.3 * cos(3 * pi * x[1]) - 0.4 * cos(4 * pi * x[2]) + 0.7) #Real Function
 #func(x) = x[1] - x[2] + 2*x[1]^2 + 2*x[1]*x[2] + x[2]^2
 func(x) = (x[1] + 2 * x[2] - 7)^2 + (2 * x[1] + x[2] - 5)^2
 
-function grad(f,x)
+function grad(f, x)
     x = Float64.(x)
     # CENTRAL FINITE DIFFERENCE CALCULATION
     h = cbrt(eps(Float64))
@@ -31,7 +29,7 @@ B1 = [1 0
 
 function backtracking_line_search(f, grad_f, x, d, alpha=1.0, beta=0.5, c1=1e-4, c2=0.9)
     t = alpha
-    while f(x + t .* d) > f(x) + c1 * t * dot(grad_f(x), d) || dot(grad_f(x + t * d), d) < c2 * dot(grad(x), d)
+    while f(x + t .* d) > f(x) + c1 * t * sum(grad_f(x).* d) || sum(grad_f(x + t * d).* d) < c2 * sum(grad_f(x).* d)
         t *= beta
     end
     return t
