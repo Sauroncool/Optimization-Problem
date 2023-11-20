@@ -1,8 +1,15 @@
 # Coded by Ambuj
 import numpy as np
 
+
 def func(x):
-    return (x[0] + 2 * x[1] - 7)**2 + (2 * x[0] + x[1] - 5)**2
+    return (x[0] ** 2 + 2 * x[1] ** 2 - 0.3 * np.cos(3 * np.pi * x[0]) - 0.4 * np.cos(
+        4 * np.pi * x[1]) + 0.7)  # Bohachevsky Function
+
+
+# def func(x):
+#     return (x[0] + 2 * x[1] - 7) ** 2 + (2 * x[0] + x[1] - 5) ** 2
+
 
 def grad(f, x):
     x = np.array(x, dtype=float)
@@ -17,14 +24,18 @@ def grad(f, x):
         nabla[i] = (f(x_for) - f(x_back)) / (2 * h)
     return nabla
 
+
 def grad_f(x):
     return grad(func, x)
 
+
 def backtracking_line_search(f, grad_f, x, d, alpha=1.0, beta=0.5, c1=1e-4, c2=0.9):
     t = alpha
-    while f(x + t * d) > f(x) + c1 * t * np.dot(grad_f(x), d) or np.dot(grad_f(x + t * d), d) < c2 * np.dot(grad_f(x), d):
+    while f(x + t * d) > f(x) + c1 * t * np.dot(grad_f(x), d) or np.dot(grad_f(x + t * d), d) < c2 * np.dot(grad_f(x),
+                                                                                                            d):
         t *= beta
     return t
+
 
 max_iter = 100
 X1 = np.array([1, 2], dtype=float)
@@ -32,7 +43,7 @@ X1 = np.array([1, 2], dtype=float)
 del_f1 = grad_f(X1)
 B1 = np.eye(len(X1))
 
-for _ in range(max_iter):
+for i in range(max_iter):
     if np.linalg.norm(del_f1) <= 1e-6:
         break
 
