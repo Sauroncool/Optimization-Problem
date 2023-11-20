@@ -29,8 +29,10 @@ def grad_f(x):
     return grad(func, x)
 
 
-def backtracking_line_search(f, grad_f, x, p, alpha=1.0, beta=0.5, c1=1e-4, c2=0.9):
-    while f(x + alpha * p) > f(x) + c1 * alpha * np.dot(p, grad_f(x)) or np.dot(p, grad_f(x + alpha * p)) < c2 * np.dot(p, grad_f(x)):
+def backtracking_line_search(f, grad_f, x, p, alpha=1.0, beta=0.5, c1=1e-4, c2=0.9):  # Backtracking Line Search with
+    # Wolfe Condition
+    while f(x + alpha * p) > f(x) + c1 * alpha * np.dot(p, grad_f(x)) or np.dot(p, grad_f(x + alpha * p)) < c2 * np.dot(
+            p, grad_f(x)):  # https://en.wikipedia.org/wiki/Wolfe_conditions
         alpha *= beta
     return alpha
 
