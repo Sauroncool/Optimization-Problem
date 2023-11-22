@@ -1,7 +1,9 @@
-#func(x) = (x[1]^2 + 2 * x[2]^2 - 0.3 * cos(3 * pi * x[1]) - 0.4 * cos(4 * pi * x[2]) + 0.7) #Bohachevsky Function
+# BFGS Algorithm
+# Code by Ambuj
+# func(x) = (x[1]^2 + 2 * x[2]^2 - 0.3 * cos(3 * pi * x[1]) - 0.4 * cos(4 * pi * x[2]) + 0.7) #Bohachevsky Function
 func(x) = (x[1] - 1)^2 + sum(i * (2 * x[i]^2 - x[i-1])^2 for i in 2:length(x)) # Dixon Price
-#func(x) = x[1] - x[2] + 2*x[1]^2 + 2*x[1]*x[2] + x[2]^2
-#func(x) = (x[1] + 2 * x[2] - 7)^2 + (2 * x[1] + x[2] - 5)^2
+# func(x) = x[1] - x[2] + 2*x[1]^2 + 2*x[1]*x[2] + x[2]^2
+# func(x) = (x[1] + 2 * x[2] - 7)^2 + (2 * x[1] + x[2] - 5)^2
 
 function grad(f, x)
     x = Float64.(x)
@@ -21,9 +23,10 @@ end
 
 grad_f(x) = grad(func, x)
 
-#X1 = [2, 1]
+# X1 = [2, 1]
 X1 = [1, 2 , 2]
 del_f1 = grad_f(X1)
+
 # B1 = [1 0
 #     0 1]
 

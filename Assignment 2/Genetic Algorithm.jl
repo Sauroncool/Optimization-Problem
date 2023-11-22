@@ -1,15 +1,15 @@
 # Genetic Algorithm
 # Code by Ambuj
-#func(x) = (x[1]^2 + 2 * x[2]^2 - 0.3 * cos(3 * pi * x[1]) - 0.4 * cos(4 * pi * x[2]) + 0.7) #Bohachevsky Function
-
-func(x) = (x[1] - 1)^2 + sum(i * (2 * x[i]^2 - x[i-1])^2 for i in 2:length(x))
+# func(x) = (x[1]^2 + 2 * x[2]^2 - 0.3 * cos(3 * pi * x[1]) - 0.4 * cos(4 * pi * x[2]) + 0.7) #Bohachevsky Function
+func(x) = (x[1] - 1)^2 + sum(i * (2 * x[i]^2 - x[i-1])^2 for i in 2:length(x)) # Dixon Price
+# func(x) = x[1] - x[2] + 2*x[1]^2 + 2*x[1]*x[2] + x[2]^2
 no_of_gen = 50
 dimension = 3
 lower_bound = -10.0
 upper_bound = 10.0
 chromosome = rand(Float64, no_of_gen, dimension) .* (upper_bound - lower_bound) .+ lower_bound
 
-max_iter = 5000
+max_iter = 500
 for i in 1:max_iter
     global chromosome
     func_values = func.(eachrow(chromosome))
@@ -56,17 +56,30 @@ for i in 1:max_iter
             chromosome[i, :] = child[i] # Replacing parents with children
         end
     end
-    if i == max_iter
-        #println("Max Iteration reached")
-        break
-    end
-    # Mutation
-    mutation_rate = 0.15 # 15% (After some trial and error)
-    mutation_infuncs = rand(1:length(chromosome), round(Int, mutation_rate * length(chromosome)))
+    # if i == max_iter
+    #     println("Max Iteration reached")
+    #     break
+    # end
 
-    for index in unique(mutation_infuncs)
-        chromosome[index] = rand(Float64) .* (upper_bound - lower_bound) .+ lower_bound
+    # Muhlenbein mutation
+    mutation_rate = 0.1
+    mutation_index = rand(1:length(chromosome), round(Int, mutation_rate * length(chromosome)))
+    for index in unique(mutation_index)
+        chromosome[index] = chromosome[index]+ rand((-1,1))*0.1*(upper_bound-lower_bound)*sum(rand(Float64)*2.0^(-k) for k in 1:15)
     end
+
+    # Random Mutation
+    # mutation_rate = 0.15 # 15% (After some trial and error)
+    # mutation_infuncs = rand(1:length(chromosome), round(Int, mutation_rate * length(chromosome)))
+
+    # for index in unique(mutation_infuncs)
+    #     chromosome[index] = rand(Float64) .* (upper_bound - lower_bound) .+ lower_bound
+    # end
+
+    # if i%100 == 0
+    #     println("Iteration reached")
+    # end
+    
 end
 #println(chromosome)
 println("Value of Function: ",minimum(func.(eachrow(chromosome))))
