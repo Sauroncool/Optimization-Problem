@@ -56,13 +56,32 @@ for i in 1:max_iter
             chromosome[i, :] = child[i] # Replacing parents with children
         end
     end
+    # if i == max_iter
+    #     println("Max Iteration reached")
+    #     break
+    # end
 
     # Muhlenbein mutation
     mutation_rate = 0.1
     mutation_index = rand(1:length(chromosome), round(Int, mutation_rate * length(chromosome)))
     for index in unique(mutation_index)
         chromosome[index] = chromosome[index]+ rand((-1,1))*0.1*(upper_bound-lower_bound)*sum(rand(Float64)*2.0^(-k) for k in 1:15)
-    end 
+    end
+
+    # Random Mutation
+    # mutation_rate = 0.15 # 15% (After some trial and error)
+    # mutation_infuncs = rand(1:length(chromosome), round(Int, mutation_rate * length(chromosome)))
+
+    # for index in unique(mutation_infuncs)
+    #     chromosome[index] = rand(Float64) .* (upper_bound - lower_bound) .+ lower_bound
+    # end
+
+    # if i%100 == 0
+    #     println("Iteration reached")
+    # end
+    
 end
+#println(chromosome)
 println("Value of Function: ",minimum(func.(eachrow(chromosome))))
+# println(argmin(reshape(func.(eachrow(chromosome)), :)))
 println("Solution: ",chromosome[argmin(reshape(func.(eachrow(chromosome)), :)),:])
