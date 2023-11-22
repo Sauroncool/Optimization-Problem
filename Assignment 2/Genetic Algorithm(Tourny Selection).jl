@@ -1,33 +1,25 @@
 # Genetic Algorithm
 # Code by Ambuj
-#func(x) = (x[1]^2 + 2 * x[2]^2 - 0.3 * cos(3 * pi * x[1]) - 0.4 * cos(4 * pi * x[2]) + 0.7) #Bohachevsky Function
 
-func(x) = (x[1] - 1)^2 + sum(i * (2 * x[i]^2 - x[i-1])^2 for i in 2:length(x))
-no_of_gen = 50
+dice(x) = (x[1] - 1)^2 + sum(i * (2 * x[i]^2 - x[i-1])^2 for i in 2:length(x))
+no_of_gen = 500
 dimension = 3
 lower_bound = -10.0
 upper_bound = 10.0
 chromosome = rand(Float64, no_of_gen, dimension) .* (upper_bound - lower_bound) .+ lower_bound
 
-max_iter = 5000
+max_iter= 200
 for i in 1:max_iter
     global chromosome
-    func_values = func.(eachrow(chromosome))
+    func_values = dice.(eachrow(chromosome))
     fitness = 1 ./ (func_values .+ 1) # In order to avoid dividing them by zero
-    indi_prob = fitness ./ sum(fitness)
-    cumul_prob = cumsum(indi_prob)
-    roulette = rand(length(cumul_prob))
+    # Tournament Selection
     new_chromo = []
-    for i = 1:length(roulette)
-        for j = 1:length(roulette)-1
-            if roulette[i] > cumul_prob[j] && roulette[i] <= cumul_prob[j+1]
-                push!(new_chromo, chromosome[j+1, :])
-            end
+    while length(new_chromo)<no_of_gen
+        i = rand(1:no_of_gen)
+        if fitness[i]>rand((fitness[fitness.!=fitness[i]]))
+            push!(new_chromo, chromosome[i, :])
         end
-    end
-    while length(new_chromo)!=no_of_gen
-        push!(new_chromo,chromosome[argmin(reshape(func.(eachrow(chromosome)), :)),:])
-        #push!(new_chromo, chromosome[end, :])
     end
     chromosome = mapreduce(permutedims, vcat, new_chromo)
 
@@ -56,19 +48,23 @@ for i in 1:max_iter
             chromosome[i, :] = child[i] # Replacing parents with children
         end
     end
+
     if i == max_iter
-        #println("Max Iteration reached")
+        println("haha")
         break
     end
-    # Mutation
-    mutation_rate = 0.15 # 15% (After some trial and error)
-    mutation_infuncs = rand(1:length(chromosome), round(Int, mutation_rate * length(chromosome)))
 
-    for index in unique(mutation_infuncs)
+    # Mutation
+    mutation_rate = 0.06 # 6%
+    mutation_indices = rand(1:length(chromosome), round(Int, mutation_rate * length(chromosome)))
+
+    for index in unique(mutation_indices)
         chromosome[index] = rand(Float64) .* (upper_bound - lower_bound) .+ lower_bound
     end
+    #func_values = dice.(eachrow(chromosome))
+    #println(sum(func_values) / length(func_values))
 end
 #println(chromosome)
-println("Value of Function: ",minimum(func.(eachrow(chromosome))))
-# println(argmin(reshape(func.(eachrow(chromosome)), :)))
-println("Solution: ",chromosome[argmin(reshape(func.(eachrow(chromosome)), :)),:])
+println("Value of Function: ",minimum(dice.(eachrow(chromosome))))
+# println(argmin(reshape(dice.(eachrow(chromosome)), :)))
+println("Solution: ",chromosome[argmin(reshape(dice.(eachrow(chromosome)), :)),:])
