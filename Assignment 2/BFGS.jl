@@ -1,8 +1,8 @@
 # BFGS Algorithm
 # Code by Ambuj
 # func(x) = (x[1]^2 + 2 * x[2]^2 - 0.3 * cos(3 * pi * x[1]) - 0.4 * cos(4 * pi * x[2]) + 0.7) #Bohachevsky Function
-# func(x) = (x[1] - 1)^2 + sum(i * (2 * x[i]^2 - x[i-1])^2 for i in 2:length(x)) # Dixon Price
-func(x) = x[1] - x[2] + 2*x[1]^2 + 2*x[1]*x[2] + x[2]^2
+func(x) = (x[1] - 1)^2 + sum(i * (2 * x[i]^2 - x[i-1])^2 for i in 2:length(x)) # Dixon Price
+# func(x) = x[1] - x[2] + 2*x[1]^2 + 2*x[1]*x[2] + x[2]^2
 # func(x) = (x[1] + 2 * x[2] - 7)^2 + (2 * x[1] + x[2] - 5)^2
 
 function grad(f, x)
@@ -23,16 +23,16 @@ end
 
 grad_f(x) = grad(func, x)
 
-X1 = [2, 1]
-# X1 = [1, 2 , 2]
+# X1 = [2, 1]
+X1 = [1, 2 , 2]
 del_f1 = grad_f(X1)
 
-B1 = [1 0
-    0 1]
+# B1 = [1 0
+#     0 1]
 
-# B1 = [1 0 0
-#     0 1 0
-#     0 0 1]
+B1 = [1 0 0
+    0 1 0
+    0 0 1]
 
 
 function backtracking_line_search(f, grad_f, x, p, α=1.0, β=0.5, c1=1e-4, c2=0.9) # Backtracking Line Search with Wolfe Condition
