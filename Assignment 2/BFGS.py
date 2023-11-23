@@ -2,13 +2,16 @@
 import numpy as np
 
 
-# def func(x):
-#     return (x[0] ** 2 + 2 * x[1] ** 2 - 0.3 * np.cos(3 * np.pi * x[0]) - 0.4 * np.cos(
-#         4 * np.pi * x[1]) + 0.7)  # Bohachevsky Function
-
-
 def func(x):
-    return (x[0] + 2 * x[1] - 7) ** 2 + (2 * x[0] + x[1] - 5) ** 2
+    return (x[0] ** 2 + 2 * x[1] ** 2 - 0.3 * np.cos(3 * np.pi * x[0]) - 0.4 * np.cos(
+        4 * np.pi * x[1]) + 0.7)  # Bohachevsky Function
+
+
+#def func(x):
+#    return (x[0] + 2 * x[1] - 7) ** 2 + (2 * x[0] + x[1] - 5) ** 2
+
+# def func(x):
+#     return (x[0] -x[1] +2*x[0]**2 + 2*x[0]*x[1] + x[1]**2)
 
 
 def grad(f, x):
@@ -38,7 +41,7 @@ def backtracking_line_search(f, grad_f, x, p, alpha=1.0, beta=0.5, c1=1e-4, c2=0
 
 
 max_iter = 100
-X1 = np.array([1, 2], dtype=float)
+X1 = np.array([1, 2], dtype=float) # Initial Guess
 # X1 = np.array([0, 0], dtype=float)
 del_f1 = grad_f(X1)
 B1 = np.eye(len(X1))
