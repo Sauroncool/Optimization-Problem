@@ -16,18 +16,18 @@ max_iter = 2000
 for iter in range(max_iter):
     func_values = np.apply_along_axis(func, 1, chromosome)
     fitness = 1 / (func_values + 1)
+    indi_prob = fitness / np.sum(fitness)
 
-    # Tournament Selection
+    cumul_prob = np.concatenate(([0], np.cumsum(indi_prob)))
+    roulette = rand(population)
     new_chromo = []
-    while len(new_chromo) < population:
-        a = randint(0, population)
-        b = randint(0, population)
-        if fitness[a] > fitness[b]:
-            new_chromo.append(chromosome[a])
-        elif fitness[b] > fitness[a]:
-            new_chromo.append(chromosome[b])
 
-    chromosome = np.array(new_chromo)
+    for i in range(population):
+        for j in range(population):
+            if roulette[i] > cumul_prob[j] and roulette[i] <= cumul_prob[j+1]:
+                new_chromo.append(chromosome[j])
+
+    chromosome = np.concatenate(new_chromo)
 
     # Crossover
     crossover_rate = 0.3

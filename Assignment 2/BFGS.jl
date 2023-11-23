@@ -1,7 +1,7 @@
 # BFGS Algorithm
 # Code by Ambuj
-# func(x) = (x[1]^2 + 2 * x[2]^2 - 0.3 * cos(3 * pi * x[1]) - 0.4 * cos(4 * pi * x[2]) + 0.7) #Bohachevsky Function
-func(x) = (x[1] - 1)^2 + sum(i * (2 * x[i]^2 - x[i-1])^2 for i in 2:length(x)) # Dixon Price
+func(x) = (x[1]^2 + 2 * x[2]^2 - 0.3 * cos(3 * pi * x[1]) - 0.4 * cos(4 * pi * x[2]) + 0.7) #Bohachevsky Function
+# func(x) = (x[1] - 1)^2 + sum(i * (2 * x[i]^2 - x[i-1])^2 for i in 2:length(x)) # Dixon Price
 # func(x) = x[1] - x[2] + 2*x[1]^2 + 2*x[1]*x[2] + x[2]^2
 # func(x) = (x[1] + 2 * x[2] - 7)^2 + (2 * x[1] + x[2] - 5)^2
 
@@ -43,6 +43,7 @@ end
 
 max_iter = 100
 
+@time begin
 for iter in 1:max_iter
     global X1, B1, del_f1
     if sqrt(del_f1'*del_f1) <= 10e-6 # Checking Norm
@@ -73,6 +74,7 @@ println("Solution: ", X1)
 println("Function Value: ", func(X1))
 
 println("Solution rouded off: ", round.(X1; digits=3))
+end
 
 # Plots
 # using Plots
