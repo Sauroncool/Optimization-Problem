@@ -24,10 +24,10 @@ for iter in range(max_iter):
 
     for i in range(population):
         for j in range(population):
-            if roulette[i] > cumul_prob[j] and roulette[i] <= cumul_prob[j+1]:
+            if cumul_prob[j] < roulette[i] <= cumul_prob[j + 1]:
                 new_chromo.append(chromosome[j])
 
-    chromosome = np.concatenate(new_chromo)
+    chromosome = np.array(new_chromo)
 
     # Crossover
     crossover_rate = 0.3
