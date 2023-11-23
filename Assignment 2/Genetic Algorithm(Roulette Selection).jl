@@ -1,11 +1,11 @@
 # Genetic Algorithm
 # Code by Ambuj
-# func(x) = (x[1]^2 + 2 * x[2]^2 - 0.3 * cos(3 * pi * x[1]) - 0.4 * cos(4 * pi * x[2]) + 0.7) #Bohachevsky Function
-func(x) = (x[1] - 1)^2 + sum(i * (2 * x[i]^2 - x[i-1])^2 for i in 2:length(x)) # Dixon Price
+func(x) = (x[1]^2 + 2 * x[2]^2 - 0.3 * cos(3 * pi * x[1]) - 0.4 * cos(4 * pi * x[2]) + 0.7) #Bohachevsky Function
+# func(x) = (x[1] - 1)^2 + sum(i * (2 * x[i]^2 - x[i-1])^2 for i in 2:length(x)) # Dixon Price
 # func(x) = (x[1] + 2 * x[2] - 7)^2 + (2 * x[1] + x[2] - 5)^2
 
 population = 50
-dimension = 3
+dimension = 2
 lower_bound = -10.0
 upper_bound = 10.0
 chromosome = rand(Float64, population, dimension) .* (upper_bound - lower_bound) .+ lower_bound
@@ -31,7 +31,7 @@ for i in 1:max_iter
     chromosome = mapreduce(permutedims, vcat, new_chromo)
 
     #Crossover
-    crossover_rate = 0.6
+    crossover_rate = 0.8
     parent_index = []
     for i in 1:length(new_chromo)
         crossover_rand = rand()
