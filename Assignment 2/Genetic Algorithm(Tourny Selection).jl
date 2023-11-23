@@ -39,7 +39,7 @@ for i in 1:max_iter
    end
    child = []
    if length(parent_index)>1
-       for i in 1:Int(trunc(length(parent_index)/2))
+    for i in 1:floor(Int,length(parent_index)/2)
            first_parent = chromosome[parent_index[2*i-1], :]
            second_parent = chromosome[parent_index[2*i], :]
            lamda = 1/3
