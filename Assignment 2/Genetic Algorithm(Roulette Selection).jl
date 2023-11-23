@@ -17,19 +17,16 @@ for i in 1:max_iter
     func_values = func.(eachrow(chromosome))
     fitness = 1 ./ (func_values .+ 1) # In order to avoid dividing them by zero
     indi_prob = fitness ./ sum(fitness)
-    cumul_prob = cumsum(indi_prob)
-    roulette = rand(length(cumul_prob))
+
+    cumul_prob = [0;cumsum(indi_prob)]
+    roulette = rand(population)
     new_chromo = []
-    for i = 1:length(roulette)
-        for j = 1:length(roulette)-1
+    for i = 1:population
+        for j = 1:population
             if roulette[i] > cumul_prob[j] && roulette[i] <= cumul_prob[j+1]
-                push!(new_chromo, chromosome[j+1, :])
+                push!(new_chromo, chromosome[j, :])
             end
         end
-    end
-    while length(new_chromo)!=population
-        push!(new_chromo,chromosome[argmin(reshape(func.(eachrow(chromosome)), :)),:])
-        #push!(new_chromo, chromosome[end, :])
     end
     chromosome = mapreduce(permutedims, vcat, new_chromo)
 

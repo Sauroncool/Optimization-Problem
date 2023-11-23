@@ -27,12 +27,10 @@ grad_f(x) = grad(func, x)
 X1 = [1, 2 , 2]
 del_f1 = grad_f(X1)
 
-# B1 = [1 0
-#     0 1]
-
-B1 = [1 0 0
-    0 1 0
-    0 0 1]
+B1 = zeros(length(X1), length(X1))
+    for i in 1:length(X1)
+        B1[i, i] = 1
+    end
 
 
 function backtracking_line_search(f, grad_f, x, p, α=1.0, β=0.5, c1=1e-4, c2=0.9) # Backtracking Line Search with Wolfe Condition
