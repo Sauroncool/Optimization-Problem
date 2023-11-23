@@ -1,7 +1,7 @@
 # BFGS Algorithm
 # Code by Ambuj
-# func(x) = (x[1]^2 + 2 * x[2]^2 - 0.3 * cos(3 * pi * x[1]) - 0.4 * cos(4 * pi * x[2]) + 0.7) #Bohachevsky Function
-func(x) = (x[1] - 1)^2 + sum(i * (2 * x[i]^2 - x[i-1])^2 for i in 2:length(x)) # Dixon Price
+func(x) = (x[1]^2 + 2 * x[2]^2 - 0.3 * cos(3 * pi * x[1]) - 0.4 * cos(4 * pi * x[2]) + 0.7) #Bohachevsky Function
+# func(x) = (x[1] - 1)^2 + sum(i * (2 * x[i]^2 - x[i-1])^2 for i in 2:length(x)) # Dixon Price
 # func(x) = x[1] - x[2] + 2*x[1]^2 + 2*x[1]*x[2] + x[2]^2
 # func(x) = (x[1] + 2 * x[2] - 7)^2 + (2 * x[1] + x[2] - 5)^2
 
@@ -23,8 +23,8 @@ end
 
 grad_f(x) = grad(func, x)
 
-# X1 = [2, 1]
-X1 = [1, 2 , 2]
+X1 =[2, 1]
+# X1 = [1, 2 , 2]
 del_f1 = grad_f(X1)
 
 B1 = zeros(length(X1), length(X1))
@@ -45,7 +45,7 @@ max_iter = 100
 
 for iter in 1:max_iter
     global X1, B1, del_f1
-    if sqrt(sqrt(del_f1'*del_f1)) <= 10e-6 # Checking Norm
+    if sqrt(del_f1'*del_f1) <= 10e-6 # Checking Norm
         # println(X1)
         # println(sqrt(del_f1'*del_f1))
         break
