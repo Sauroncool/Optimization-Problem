@@ -5,6 +5,27 @@ func(x) = (x[1]^2 + 2 * x[2]^2 - 0.3 * cos(3 * pi * x[1]) - 0.4 * cos(4 * pi * x
 # func(x) = x[1] - x[2] + 2*x[1]^2 + 2*x[1]*x[2] + x[2]^2
 # func(x) = (x[1] + 2 * x[2] - 7)^2 + (2 * x[1] + x[2] - 5)^2
 
+# function func(xx, a=20, b=0.2, c=2*pi) # Ackley
+#     d = length(xx)
+    
+#     sum1 = 0
+#     sum2 = 0
+    
+#     for ii = 1:d
+#         xi = xx[ii]
+#         sum1 += xi^2
+#         sum2 += cos(c * xi)
+#     end
+    
+#     term1 = -a * exp(-b * sqrt(sum1 / d))
+#     term2 = -exp(sum2 / d)
+    
+#     y = term1 + term2 + a + exp(1)
+    
+#     return y
+# end
+
+
 function grad(f, x)
     x = Float64.(x)
     # Central Finite Difference Calculation
@@ -23,7 +44,7 @@ end
 
 grad_f(x) = grad(func, x)
 
-X1 =[2, 1]
+X1 =[1, 1]
 # X1 = [1, 2 , 2]
 del_f1 = grad_f(X1)
 
