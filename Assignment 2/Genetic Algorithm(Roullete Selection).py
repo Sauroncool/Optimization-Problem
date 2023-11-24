@@ -1,9 +1,14 @@
 import numpy as np
-from numpy.random import rand, randint
+from numpy.random import rand
+import time
 
+
+# def func(x):
+#     return x[0] ** 2 + 2 * x[1] ** 2 - 0.3 * np.cos(3 * np.pi * x[0]) - 0.4 * np.cos(4 * np.pi * x[1]) + 0.7
+# Bohachevsky
 
 def func(x):
-    return x[0] ** 2 + 2 * x[1] ** 2 - 0.3 * np.cos(3 * np.pi * x[0]) - 0.4 * np.cos(4 * np.pi * x[1]) + 0.7
+    return (x[0] - 1) ** 2 + sum(i * (2 * x[i] ** 2 - x[i - 1]) ** 2 for i in range(1, len(x)))  # Dixon Price
 
 
 population = 50
@@ -13,6 +18,7 @@ upper_bound = 10.0
 chromosome = np.random.rand(population, dimension) * (upper_bound - lower_bound) + lower_bound
 
 max_iter = 2000
+start_time = time.time()
 for iter in range(max_iter):
     func_values = np.apply_along_axis(func, 1, chromosome)
     fitness = 1 / (func_values + 1)
@@ -24,10 +30,10 @@ for iter in range(max_iter):
 
     for i in range(population):
         for j in range(population):
-            if roulette[i] > cumul_prob[j] and roulette[i] <= cumul_prob[j+1]:
+            if cumul_prob[j] < roulette[i] <= cumul_prob[j + 1]:
                 new_chromo.append(chromosome[j])
 
-    chromosome = np.concatenate(new_chromo)
+    chromosome = np.array(new_chromo)
 
     # Crossover
     crossover_rate = 0.3
@@ -60,8 +66,10 @@ for iter in range(max_iter):
         )
         chromosome[index] = chromosome[index] + mutation_value
 
+elapsed_time = time.time() - start_time
 best_solution_index = np.argmin(np.apply_along_axis(func, 1, chromosome))
 best_solution = chromosome[best_solution_index]
 print("Value of Function:", func(best_solution))
 print("Solution:", best_solution)
 print("Solution (rounded off):", np.round(best_solution, decimals=2))
+print("Execution time:", elapsed_time, "seconds")
