@@ -44,7 +44,7 @@ end
 
 grad_f(x) = grad(func, x)
 
-X1 =[1, 1]
+X1 =[-50, 50]
 # X1 = [1, 2 , 2]
 del_f1 = grad_f(X1)
 

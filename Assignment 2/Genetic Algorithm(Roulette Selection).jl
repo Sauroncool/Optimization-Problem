@@ -1,16 +1,16 @@
 # Genetic Algorithm
 # Code by Ambuj
-func(x) = (x[1]^2 + 2 * x[2]^2 - 0.3 * cos(3 * pi * x[1]) - 0.4 * cos(4 * pi * x[2]) + 0.7) #Bohachevsky Function
-# func(x) = (x[1] - 1)^2 + sum(i * (2 * x[i]^2 - x[i-1])^2 for i in 2:length(x)) # Dixon Price
+# func(x) = (x[1]^2 + 2 * x[2]^2 - 0.3 * cos(3 * pi * x[1]) - 0.4 * cos(4 * pi * x[2]) + 0.7) #Bohachevsky Function
+func(x) = (x[1] - 1)^2 + sum(i * (2 * x[i]^2 - x[i-1])^2 for i in 2:length(x)) # Dixon Price
 # func(x) = (x[1] + 2 * x[2] - 7)^2 + (2 * x[1] + x[2] - 5)^2
 
 population = 50
 dimension = 2
-lower_bound = -10.0
-upper_bound = 10.0
+lower_bound = -50.0
+upper_bound = 50.0
 chromosome = rand(Float64, population, dimension) .* (upper_bound - lower_bound) .+ lower_bound
 
-max_iter = 2000
+max_iter = 1500
 for i in 1:max_iter
     # Roullete Selection
     global chromosome
@@ -60,6 +60,8 @@ for i in 1:max_iter
     mutation_rate = 0.15
     mutation_index = rand(1:length(chromosome), round(Int, mutation_rate * length(chromosome)))
     for index in unique(mutation_index)
+        # println(index)
+        # println(chromosome[index])
         chromosome[index] = chromosome[index]+ rand((-1,1))*0.1*(upper_bound-lower_bound)*sum(rand()*2.0^(-k) for k in 1:15)
     end 
 end
