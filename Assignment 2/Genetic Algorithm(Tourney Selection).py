@@ -12,7 +12,6 @@ lower_bound = -10.0
 upper_bound = 10.0
 chromosome = np.random.rand(population, dimension) * (upper_bound - lower_bound) + lower_bound
 
-
 max_iter = 2000
 for iter in range(max_iter):
     func_values = np.apply_along_axis(func, 1, chromosome)
@@ -54,12 +53,12 @@ for iter in range(max_iter):
 
     # Muhlenbein mutation
     mutation_rate = 0.15
-    mutation_index = np.random.choice(range(population), size=int(mutation_rate * population * dimension))
+    mutation_index = randint(0, population, size=int(mutation_rate * population * dimension))
     for index in mutation_index:
         mutation_value = np.random.choice([-1, 1]) * 0.1 * (upper_bound - lower_bound) * sum(
             rand() * 2.0 ** (-k) for k in range(1, 16)
         )
-        i = randint(0,dimension)
+        i = randint(0, dimension)
         chromosome[index][i] = chromosome[index][i] + mutation_value
 
 best_solution_index = np.argmin(np.apply_along_axis(func, 1, chromosome))
